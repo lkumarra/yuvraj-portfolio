@@ -1,0 +1,5 @@
+# Netlify Build Settings
+node_modules/
+.netlify/
+*.log
+.DS_Store

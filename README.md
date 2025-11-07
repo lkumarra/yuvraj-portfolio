@@ -2,7 +2,7 @@
 
 ## ✨ New Apple-Inspired Design
 
-I've created a completely redesigned version of your portfolio with:
+A production-ready photo editor portfolio website with Apple-inspired design and modern features.
 
 ### 🎨 Design Features
 - **Minimalist Apple Aesthetic**: Clean, spacious design inspired by apple.com
@@ -11,35 +11,62 @@ I've created a completely redesigned version of your portfolio with:
 - **Premium Typography**: SF Pro Display style fonts for elegant look
 - **Subtle Interactions**: Hover effects, scale animations, and smooth scrolling
 - **Dark Mode**: Beautiful dark theme with smooth transitions 🌓
+- **Auto-Scrolling Carousels**: Portfolio images with auto-scroll and manual controls
+- **Portrait Image Support**: Optimized for 2:3 aspect ratio images
 
-### 🚀 Key Improvements
-1. **Fixed Config Loading**: Now properly loads all content from `config.json`
-2. **Console Logging**: See exactly what's happening in browser console
-3. **Error Messages**: Beautiful error notifications if something goes wrong
-4. **Better Performance**: Optimized animations and lazy loading for images
-5. **Mobile Responsive**: Perfect on all devices
-6. **Dark Mode Toggle**: Switch between light and dark themes
+### 🚀 Key Features
+1. **Config-Driven Content**: All content loads from `config.json`
+2. **Dark Mode Toggle**: Switch between light and dark themes with localStorage
+3. **Portfolio Carousels**: Auto-scrolling carousels with play/pause, prev/next, dots
+4. **Multiple Images Per Category**: Add unlimited images to same category
+5. **Responsive Design**: Perfect on desktop, tablet, and mobile (3→2→1 slides)
+6. **Lightbox Gallery**: Click any image to view full-size
+7. **Portrait Optimized**: Designed for vertical/portrait images (2:3 ratio)
 
-## 📦 Files
+## 📦 Project Structure
 
-- `index.html` - Main HTML file with clean structure
-- `styles.css` - Apple-inspired CSS with smooth animations and dark mode
-- `script.js` - Enhanced JavaScript with proper config loading and dark mode
-- `start.sh` - Quick start script
+- `index.html` - Main HTML file with semantic structure
+- `styles.css` - Apple-inspired CSS with dark mode and carousel system
+- `script.js` - Enhanced JavaScript with carousel logic and dark mode
 - `config.json` - All website content (easy to customize)
-- `generate_images.py` - Python script to generate sample images
-- `DARK-MODE-GUIDE.md` - Dark mode documentation
+- `netlify.toml` - Netlify deployment configuration
+- `images/` - Portfolio and profile images
+- Documentation files (guides for dark mode, portfolio images, project structure)
 
-## 🎯 How to Use
+## 🚀 Deployment
 
-### Option 1: Quick Start (Recommended)
+### Deploy to Netlify (Recommended)
+
+1. **Push to GitHub** (already done ✅)
+   ```bash
+   git add .
+   git commit -m "Ready for deployment"
+   git push origin main
+   ```
+
+2. **Deploy on Netlify**
+   - Go to [netlify.com](https://netlify.com)
+   - Click "Add new site" → "Import an existing project"
+   - Connect to GitHub and select `lkumarra/yuvraj-portfolio`
+   - Netlify will auto-detect settings from `netlify.toml`
+   - Click "Deploy site"
+   - Your site will be live in ~1 minute! 🎉
+
+3. **Custom Domain (Optional)**
+   - Go to Site settings → Domain management
+   - Add your custom domain
+   - Update DNS records as instructed
+
+### Local Development
+
+#### Option 1: Quick Start (Recommended)
 ```bash
 chmod +x start.sh
 ./start.sh
 ```
 Then open: **http://localhost:8000**
 
-### Option 2: Manual Start
+#### Option 2: Manual Start
 ```bash
 python3 -m http.server 8000
 ```
