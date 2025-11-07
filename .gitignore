@@ -1,0 +1,23 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# OS Files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temp files
+*.log
+*.tmp
+*.swp
+*~
+
+# Build files (if you add a build process)
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
