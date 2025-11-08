@@ -1,0 +1,7 @@
+# Serve images directly
+/images/*  /images/:splat  200
+
+# Serve static assets
+/*.css  /:splat.css  200
+/*.js   /:splat.js   200
+/*.json /:splat.json 200
