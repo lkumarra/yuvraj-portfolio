@@ -8,6 +8,7 @@ let siteConfig = null;
 let currentFilter = 'all';
 let currentLightboxIndex = 0;
 let portfolioItems = [];
+let currentDisplayedItems = []; // Track currently displayed items for lightbox
 
 /* ====================================
    Configuration Loading
@@ -211,6 +212,8 @@ function createPhotoGallery(items) {
     
     if (!galleryTrack || !items || items.length === 0) return;
     
+    // Update currently displayed items for lightbox
+    currentDisplayedItems = items;
     galleryState.totalItems = items.length;
     
     // Create gallery items (no overlays, just images)
@@ -399,14 +402,14 @@ function openLightbox(index) {
     const lightboxImage = document.getElementById('lightboxImage');
     const lightboxCounter = document.getElementById('lightboxCounter');
     
-    if (!lightbox || !portfolioItems[index]) return;
+    if (!lightbox || !currentDisplayedItems[index]) return;
     
     lightboxState.currentIndex = index;
     lightboxState.zoomLevel = 1;
     lightboxState.translateX = 0;
     lightboxState.translateY = 0;
     
-    const item = portfolioItems[index];
+    const item = currentDisplayedItems[index];
     
     lightboxImage.src = item.image;
     lightboxImage.alt = item.alt || 'Portfolio image';
@@ -417,7 +420,7 @@ function openLightbox(index) {
     if (lightboxTitle) lightboxTitle.style.display = 'none';
     if (lightboxDescription) lightboxDescription.style.display = 'none';
     
-    lightboxCounter.textContent = `${index + 1} / ${portfolioItems.length}`;
+    lightboxCounter.textContent = `${index + 1} / ${currentDisplayedItems.length}`;
     
     updateLightboxImageTransform();
     
@@ -549,8 +552,8 @@ function navigateLightbox(direction) {
     let newIndex = lightboxState.currentIndex + direction;
     
     if (newIndex < 0) {
-        newIndex = portfolioItems.length - 1;
-    } else if (newIndex >= portfolioItems.length) {
+        newIndex = currentDisplayedItems.length - 1;
+    } else if (newIndex >= currentDisplayedItems.length) {
         newIndex = 0;
     }
     
@@ -737,6 +740,13 @@ function initNavigation() {
     const navMenu = document.getElementById('navMenu');
     const navLinks = document.querySelectorAll('.nav-link');
     
+    console.log('🔧 Initializing navigation...', {
+        navbar: !!navbar,
+        navToggle: !!navToggle,
+        navMenu: !!navMenu,
+        navLinksCount: navLinks.length
+    });
+    
     if (!navbar) {
         console.warn('⚠️ Navigation elements not found');
         return;
@@ -756,8 +766,17 @@ function initNavigation() {
     
     // Mobile menu toggle
     if (navToggle && navMenu) {
-        navToggle.addEventListener('click', () => {
+        console.log('✅ Setting up mobile menu toggle');
+        navToggle.addEventListener('click', (e) => {
+            e.preventDefault();
+            console.log('🔘 Menu toggle clicked');
             navMenu.classList.toggle('active');
+            console.log('Menu active state:', navMenu.classList.contains('active'));
+        });
+    } else {
+        console.warn('⚠️ Mobile menu elements not found:', {
+            navToggle: !!navToggle,
+            navMenu: !!navMenu
         });
     }
     

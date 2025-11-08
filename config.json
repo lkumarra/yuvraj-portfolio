@@ -5,7 +5,7 @@
     "author": "Your Name"
   },
   "brand": {
-    "name": "PhotoEdit",
+    "name": "PhotoRetouch",
     "tagline": "Professional Photo Editing Services"
   },
   "hero": {
@@ -533,19 +533,19 @@
     "sectionSubtitle": "Let's discuss your next project",
     "email": {
       "label": "Email",
-      "value": "editor@photoeditor.com",
-      "link": "mailto:editor@photoeditor.com",
+      "value": "yuvraj8979707@gmail.com",
+      "link": "mailto:yuvraj8979707@gmail.com",
       "linkText": "Send a message"
     },
     "phone": {
       "label": "Phone",
-      "value": "+1 (555) 123-4567",
-      "link": "tel:+15551234567",
+      "value": "+91 7017249618",
+      "link": "tel:+917017249618",
       "linkText": "Give me a call"
     },
     "location": {
       "label": "Location",
-      "value": "New York, USA",
+      "value": "Noida, India",
       "additionalInfo": "Available for remote work worldwide"
     },
     "socialLinks": [
@@ -556,34 +556,22 @@
         "label": "Instagram"
       },
       {
-        "platform": "behance",
-        "icon": "fab fa-behance",
-        "url": "https://behance.net/yourhandle",
-        "label": "Behance"
-      },
-      {
         "platform": "linkedin",
         "icon": "fab fa-linkedin-in",
-        "url": "https://linkedin.com/in/yourhandle",
+        "url": "https://www.linkedin.com/in/yuvraj-singh-106465243",
         "label": "LinkedIn"
-      },
-      {
-        "platform": "twitter",
-        "icon": "fab fa-twitter",
-        "url": "https://twitter.com/yourhandle",
-        "label": "Twitter"
       }
     ],
     "form": {
       "fields": {
         "name": {
           "label": "Your Name",
-          "placeholder": "John Doe",
+          "placeholder": "Yuvraj Singh",
           "required": true
         },
         "email": {
           "label": "Your Email",
-          "placeholder": "john@example.com",
+          "placeholder": "yuvraj8979707@gmail.com",
           "required": true
         },
         "subject": {
