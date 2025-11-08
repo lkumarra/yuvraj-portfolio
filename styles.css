@@ -782,21 +782,34 @@ section {
 
 /* Old portfolio styles - keep for backward compatibility */
 .portfolio-filters {
-    display: none;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xl);
 }
 
 .filter-btn {
-    padding: 8px 20px;
+    padding: 10px 24px;
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 500;
     border-radius: 980px;
     background: var(--color-bg-elevated);
     color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+    cursor: pointer;
     transition: var(--transition-fast);
 }
 
 .filter-btn:hover {
     background: var(--color-border);
+    transform: translateY(-2px);
+}
+
+.filter-btn.active {
+    background: var(--color-text-primary);
+    color: white;
+    border-color: var(--color-text-primary);
 }
 
 .filter-btn.active {

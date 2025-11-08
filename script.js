@@ -168,8 +168,21 @@ function populatePortfolio(portfolio) {
     // Store portfolio items globally
     portfolioItems = portfolio.items || [];
     
-    // Create unified photo gallery
+    // Populate category filters
+    if (portfolio.categories) {
+        const filtersContainer = document.getElementById('portfolioFilters');
+        if (filtersContainer) {
+            filtersContainer.innerHTML = portfolio.categories.map(cat => `
+                <button class="filter-btn ${cat.id === 'all' ? 'active' : ''}" data-filter="${cat.id}">
+                    ${cat.name}
+                </button>
+            `).join('');
+        }
+    }
+    
+    // Create unified photo gallery with all items
     createPhotoGallery(portfolioItems);
+    currentFilter = 'all';
 }
 
 /* ====================================
@@ -799,9 +812,39 @@ function smoothScroll(target) {
    Portfolio Filtering
    ==================================== */
 function initPortfolioFilter() {
-    // Portfolio filters removed - unified gallery doesn't need category filtering
-    // Filter buttons are hidden in CSS
-    console.log('Portfolio filters disabled - using unified gallery');
+    // Handle category filter clicks
+    document.addEventListener('click', (e) => {
+        if (e.target.classList.contains('filter-btn')) {
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            e.target.classList.add('active');
+            
+            // Filter gallery by category
+            const filter = e.target.dataset.filter;
+            currentFilter = filter;
+            filterGalleryByCategory(filter);
+        }
+    });
+}
+
+function filterGalleryByCategory(category) {
+    // Stop auto-scroll during filtering
+    stopGalleryAutoScroll();
+    
+    // Filter items
+    const filteredItems = category === 'all' 
+        ? portfolioItems 
+        : portfolioItems.filter(item => item.category === category);
+    
+    // Recreate gallery with filtered items
+    createPhotoGallery(filteredItems);
+    
+    // Restart auto-scroll
+    if (galleryState.isPlaying) {
+        startGalleryAutoScroll();
+    }
 }
 
 /* ====================================

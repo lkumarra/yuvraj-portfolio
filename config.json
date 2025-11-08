@@ -56,46 +56,448 @@
         "name": "All"
       },
       {
-        "id": "portrait",
-        "name": "Portraits"
+        "id": "fashion",
+        "name": "Fashion"
       },
       {
-        "id": "landscape",
-        "name": "Landscapes"
+        "id": "portrait",
+        "name": "Portrait"
+      },
+      {
+        "id": "lifestyle",
+        "name": "Lifestyle"
       },
       {
         "id": "product",
-        "name": "Products"
+        "name": "Product Photography"
       },
       {
-        "id": "creative",
-        "name": "Creative"
+        "id": "accessories",
+        "name": "Fashion Accessories"
+      },
+      {
+        "id": "jewelry",
+        "name": "Jewelry"
+      },
+      {
+        "id": "food",
+        "name": "Food & Beverage"
+      },
+      {
+        "id": "ecommerce",
+        "name": "E-commerce"
       }
     ],
     "items": [
       {
-        "image": "images/portfolio-1.jpg",
-        "alt": "Portfolio Image 1"
+        "image": "images/FNM JULY 2025-00074 copy.jpg",
+        "alt": "Fashion photography",
+        "category": "fashion"
       },
       {
-        "image": "images/portfolio-2.jpg",
-        "alt": "Portfolio Image 2"
+        "image": "images/FNM JULY 2025-00074.jpg",
+        "alt": "Fashion photography",
+        "category": "fashion"
       },
       {
-        "image": "images/portfolio-3.jpg",
-        "alt": "Portfolio Image 3"
+        "image": "images/FNM JULY 2025-00095.jpg",
+        "alt": "Fashion photography",
+        "category": "fashion"
       },
       {
-        "image": "images/portfolio-4.jpg",
-        "alt": "Portfolio Image 4"
+        "image": "images/FNM JULY 2025-00245.jpg",
+        "alt": "Fashion photography",
+        "category": "fashion"
       },
       {
-        "image": "images/portfolio-5.jpg",
-        "alt": "Portfolio Image 5"
+        "image": "images/GIISHA PRODUCT-00006.jpg",
+        "alt": "Product Photography photography",
+        "category": "product"
       },
       {
-        "image": "images/portfolio-6.jpg",
-        "alt": "Portfolio Image 6"
+        "image": "images/GIISHA PRODUCT-00020.jpg",
+        "alt": "Product Photography photography",
+        "category": "product"
+      },
+      {
+        "image": "images/GIISHA PRODUCT-00027.jpg",
+        "alt": "Product Photography photography",
+        "category": "product"
+      },
+      {
+        "image": "images/GIISHA PRODUCT-00028.jpg",
+        "alt": "Product Photography photography",
+        "category": "product"
+      },
+      {
+        "image": "images/GIISHA PRODUCT-00030.jpg",
+        "alt": "Product Photography photography",
+        "category": "product"
+      },
+      {
+        "image": "images/GIISHA PRODUCT-00035.jpg",
+        "alt": "Product Photography photography",
+        "category": "product"
+      },
+      {
+        "image": "images/GIISHA PRODUCT-00057.jpg",
+        "alt": "Product Photography photography",
+        "category": "product"
+      },
+      {
+        "image": "images/GIISHA PRODUCT-00088.jpg",
+        "alt": "Product Photography photography",
+        "category": "product"
+      },
+      {
+        "image": "images/GIISHA PRODUCT-00118.jpg",
+        "alt": "Product Photography photography",
+        "category": "product"
+      },
+      {
+        "image": "images/GIISHA PRODUCT-00144.jpg",
+        "alt": "Product Photography photography",
+        "category": "product"
+      },
+      {
+        "image": "images/GIISHA PRODUCT-00160.jpg",
+        "alt": "Product Photography photography",
+        "category": "product"
+      },
+      {
+        "image": "images/GIISHA PRODUCT-00196.jpg",
+        "alt": "Product Photography photography",
+        "category": "product"
+      },
+      {
+        "image": "images/GIISHA PRODUCT-00216.jpg",
+        "alt": "Product Photography photography",
+        "category": "product"
+      },
+      {
+        "image": "images/Gold and Silver Palace-00014.jpg",
+        "alt": "Jewelry photography",
+        "category": "jewelry"
+      },
+      {
+        "image": "images/Gold and Silver Palace-00019.jpg",
+        "alt": "Jewelry photography",
+        "category": "jewelry"
+      },
+      {
+        "image": "images/Gold and Silver Palace-00023.jpg",
+        "alt": "Jewelry photography",
+        "category": "jewelry"
+      },
+      {
+        "image": "images/Gold and Silver Palace-00036.jpg",
+        "alt": "Jewelry photography",
+        "category": "jewelry"
+      },
+      {
+        "image": "images/Gold and Silver Palace-00038.jpg",
+        "alt": "Jewelry photography",
+        "category": "jewelry"
+      },
+      {
+        "image": "images/Gold and Silver Palace-00043.jpg",
+        "alt": "Jewelry photography",
+        "category": "jewelry"
+      },
+      {
+        "image": "images/Gold and Silver Palace-00047.jpg",
+        "alt": "Jewelry photography",
+        "category": "jewelry"
+      },
+      {
+        "image": "images/Gold and Silver Palace-00205.jpg",
+        "alt": "Jewelry photography",
+        "category": "jewelry"
+      },
+      {
+        "image": "images/Greenbrew Product shoot-00023.jpg",
+        "alt": "Food & Beverage photography",
+        "category": "food"
+      },
+      {
+        "image": "images/Greenbrew Product shoot-00076.jpg",
+        "alt": "Food & Beverage photography",
+        "category": "food"
+      },
+      {
+        "image": "images/Greenbrew Product shoot-00088.jpg",
+        "alt": "Food & Beverage photography",
+        "category": "food"
+      },
+      {
+        "image": "images/Greenbrew Product shoot-00109.jpg",
+        "alt": "Food & Beverage photography",
+        "category": "food"
+      },
+      {
+        "image": "images/Greenbrew Product shoot-00197.jpg",
+        "alt": "Food & Beverage photography",
+        "category": "food"
+      },
+      {
+        "image": "images/Greenbrew Product shoot-00269.jpg",
+        "alt": "Food & Beverage photography",
+        "category": "food"
+      },
+      {
+        "image": "images/Greenbrew Product shoot-00311.jpg",
+        "alt": "Food & Beverage photography",
+        "category": "food"
+      },
+      {
+        "image": "images/Greenbrew Product shoot-00342.jpg",
+        "alt": "Food & Beverage photography",
+        "category": "food"
+      },
+      {
+        "image": "images/Greenbrew Product shoot-00390.jpg",
+        "alt": "Food & Beverage photography",
+        "category": "food"
+      },
+      {
+        "image": "images/ID SHOES(08th MAY-25)-00527.jpg",
+        "alt": "Fashion Accessories photography",
+        "category": "accessories"
+      },
+      {
+        "image": "images/ID SHOES(08th MAY-25)-00535.jpg",
+        "alt": "Fashion Accessories photography",
+        "category": "accessories"
+      },
+      {
+        "image": "images/ID SHOES(08th MAY-25)-00542.jpg",
+        "alt": "Fashion Accessories photography",
+        "category": "accessories"
+      },
+      {
+        "image": "images/ID SHOES(08th MAY-25)-00555.jpg",
+        "alt": "Fashion Accessories photography",
+        "category": "accessories"
+      },
+      {
+        "image": "images/ID SHOES(08th MAY-25)-00558.jpg",
+        "alt": "Fashion Accessories photography",
+        "category": "accessories"
+      },
+      {
+        "image": "images/ID SHOES(08th MAY-25)-01189.jpg",
+        "alt": "Fashion Accessories photography",
+        "category": "accessories"
+      },
+      {
+        "image": "images/ID SHOES(08th MAY-25)-01196.jpg",
+        "alt": "Fashion Accessories photography",
+        "category": "accessories"
+      },
+      {
+        "image": "images/ID SHOES(08th MAY-25)-01216.jpg",
+        "alt": "Fashion Accessories photography",
+        "category": "accessories"
+      },
+      {
+        "image": "images/ID SHOES(08th MAY-25)-01249.jpg",
+        "alt": "Fashion Accessories photography",
+        "category": "accessories"
+      },
+      {
+        "image": "images/ID SHOES(08th MAY-25)-01295.jpg",
+        "alt": "Fashion Accessories photography",
+        "category": "accessories"
+      },
+      {
+        "image": "images/ID wallet-00078.jpg",
+        "alt": "Fashion Accessories photography",
+        "category": "accessories"
+      },
+      {
+        "image": "images/ID wallet-00083.jpg",
+        "alt": "Fashion Accessories photography",
+        "category": "accessories"
+      },
+      {
+        "image": "images/ID wallet-00085.jpg",
+        "alt": "Fashion Accessories photography",
+        "category": "accessories"
+      },
+      {
+        "image": "images/ID wallet-00086.jpg",
+        "alt": "Fashion Accessories photography",
+        "category": "accessories"
+      },
+      {
+        "image": "images/ID wallet-00088.jpg",
+        "alt": "Fashion Accessories photography",
+        "category": "accessories"
+      },
+      {
+        "image": "images/ShopAawaa(07-10-25)-00037.jpg",
+        "alt": "E-commerce photography",
+        "category": "ecommerce"
+      },
+      {
+        "image": "images/ShopAawaa(07-10-25)-00065.jpg",
+        "alt": "E-commerce photography",
+        "category": "ecommerce"
+      },
+      {
+        "image": "images/ShopAawaa(07-10-25)-00073.jpg",
+        "alt": "E-commerce photography",
+        "category": "ecommerce"
+      },
+      {
+        "image": "images/ShopAawaa(07-10-25)-00074.jpg",
+        "alt": "E-commerce photography",
+        "category": "ecommerce"
+      },
+      {
+        "image": "images/ShopAawaa(07-10-25)-00077.jpg",
+        "alt": "E-commerce photography",
+        "category": "ecommerce"
+      },
+      {
+        "image": "images/ShopAawaa(07-10-25)-00087.jpg",
+        "alt": "E-commerce photography",
+        "category": "ecommerce"
+      },
+      {
+        "image": "images/ShopAawaa(07-10-25)-00123.jpg",
+        "alt": "E-commerce photography",
+        "category": "ecommerce"
+      },
+      {
+        "image": "images/ShopAawaa(07-10-25)-00128.jpg",
+        "alt": "E-commerce photography",
+        "category": "ecommerce"
+      },
+      {
+        "image": "images/ShopAawaa(07-10-25)-00130.jpg",
+        "alt": "E-commerce photography",
+        "category": "ecommerce"
+      },
+      {
+        "image": "images/ShopAawaa(07-10-25)-00134.jpg",
+        "alt": "E-commerce photography",
+        "category": "ecommerce"
+      },
+      {
+        "image": "images/ShopAawaa(07-10-25)-00140.jpg",
+        "alt": "E-commerce photography",
+        "category": "ecommerce"
+      },
+      {
+        "image": "images/ShopAawaa(07-10-25)-00302.jpg",
+        "alt": "E-commerce photography",
+        "category": "ecommerce"
+      },
+      {
+        "image": "images/ShopAawaa(07-10-25)-00307.jpg",
+        "alt": "E-commerce photography",
+        "category": "ecommerce"
+      },
+      {
+        "image": "images/ShopAawaa(07-10-25)-00312.jpg",
+        "alt": "E-commerce photography",
+        "category": "ecommerce"
+      },
+      {
+        "image": "images/ShopAawaa(07-10-25)-00320.jpg",
+        "alt": "E-commerce photography",
+        "category": "ecommerce"
+      },
+      {
+        "image": "images/ShopAawaa(07-10-25)-00326.jpg",
+        "alt": "E-commerce photography",
+        "category": "ecommerce"
+      },
+      {
+        "image": "images/WAGWAAN-MAY 2025-00905.jpg",
+        "alt": "Lifestyle photography",
+        "category": "lifestyle"
+      },
+      {
+        "image": "images/WAGWAAN-MAY 2025-00918.jpg",
+        "alt": "Lifestyle photography",
+        "category": "lifestyle"
+      },
+      {
+        "image": "images/WAGWAAN-MAY 2025-00926.jpg",
+        "alt": "Lifestyle photography",
+        "category": "lifestyle"
+      },
+      {
+        "image": "images/WAGWAAN-MAY 2025-00931.jpg",
+        "alt": "Lifestyle photography",
+        "category": "lifestyle"
+      },
+      {
+        "image": "images/WAGWAAN-MAY 2025-00954.jpg",
+        "alt": "Lifestyle photography",
+        "category": "lifestyle"
+      },
+      {
+        "image": "images/WAGWAAN-MAY 2025-01109 copy.jpg",
+        "alt": "Lifestyle photography",
+        "category": "lifestyle"
+      },
+      {
+        "image": "images/WAGWAAN-MAY 2025-01109.jpg",
+        "alt": "Lifestyle photography",
+        "category": "lifestyle"
+      },
+      {
+        "image": "images/_BWP MODEL-00009.jpg",
+        "alt": "Portrait photography",
+        "category": "portrait"
+      },
+      {
+        "image": "images/_BWP MODEL-00012.jpg",
+        "alt": "Portrait photography",
+        "category": "portrait"
+      },
+      {
+        "image": "images/_BWP MODEL-00014.jpg",
+        "alt": "Portrait photography",
+        "category": "portrait"
+      },
+      {
+        "image": "images/_BWP MODEL-00043.jpg",
+        "alt": "Portrait photography",
+        "category": "portrait"
+      },
+      {
+        "image": "images/_BWP MODEL-00178.jpg",
+        "alt": "Portrait photography",
+        "category": "portrait"
+      },
+      {
+        "image": "images/_BWP MODEL-00262.jpg",
+        "alt": "Portrait photography",
+        "category": "portrait"
+      },
+      {
+        "image": "images/_MUGASA-00463.jpg",
+        "alt": "Portrait photography",
+        "category": "portrait"
+      },
+      {
+        "image": "images/_MUGASA-00491.jpg",
+        "alt": "Portrait photography",
+        "category": "portrait"
+      },
+      {
+        "image": "images/_MUGASA-00493.jpg",
+        "alt": "Portrait photography",
+        "category": "portrait"
+      },
+      {
+        "image": "images/_MUGASA-00735 1 copy.motion.jpg",
+        "alt": "Portrait photography",
+        "category": "portrait"
       }
     ]
   },
@@ -204,6 +606,6 @@
   "footer": {
     "brandName": "PhotoEdit",
     "tagline": "Crafting visual excellence through professional photo editing.",
-    "copyright": "© 2025 PhotoEdit Portfolio. All rights reserved."
+    "copyright": "\u00a9 2025 PhotoEdit Portfolio. All rights reserved."
   }
 }

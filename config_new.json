@@ -1,0 +1,225 @@
+{
+  "site": {
+    "title": "Photo Editor Portfolio | Creative Editing Services",
+    "description": "Professional Photo Editing Portfolio - Showcasing creative photo editing and retouching work",
+    "author": "Your Name"
+  },
+  "brand": {
+    "name": "PhotoEdit",
+    "tagline": "Professional Photo Editing Services"
+  },
+  "hero": {
+    "title": "Transforming Moments Into",
+    "titleHighlight": "Masterpieces",
+    "subtitle": "Professional Photo Editing & Retouching Services",
+    "primaryButton": {
+      "text": "View My Work",
+      "link": "#portfolio"
+    },
+    "secondaryButton": {
+      "text": "Get In Touch",
+      "link": "#contact"
+    }
+  },
+  "services": {
+    "sectionTitle": "What I Offer",
+    "sectionSubtitle": "Professional editing services tailored to your needs",
+    "items": [
+      {
+        "icon": "fas fa-magic",
+        "title": "Photo Retouching",
+        "description": "Professional retouching to enhance portraits, remove blemishes, and perfect every detail."
+      },
+      {
+        "icon": "fas fa-palette",
+        "title": "Color Grading",
+        "description": "Expert color correction and grading to bring your vision to life with stunning visuals."
+      },
+      {
+        "icon": "fas fa-layer-group",
+        "title": "Photo Manipulation",
+        "description": "Creative compositing and manipulation to create unique, eye-catching imagery."
+      },
+      {
+        "icon": "fas fa-crop-alt",
+        "title": "Background Removal",
+        "description": "Clean background removal and replacement for product photos and portraits."
+      }
+    ]
+  },
+  "portfolio": {
+    "sectionTitle": "My Portfolio",
+    "sectionSubtitle": "A showcase of my recent photo editing projects",
+    "categories": [
+      {
+        "id": "all",
+        "name": "All"
+      },
+      {
+        "id": "fashion",
+        "name": "Fashion"
+      },
+      {
+        "id": "portrait",
+        "name": "Portrait"
+      },
+      {
+        "id": "lifestyle",
+        "name": "Lifestyle"
+      },
+      {
+        "id": "product",
+        "name": "Product Photography"
+      },
+      {
+        "id": "accessories",
+        "name": "Fashion Accessories"
+      },
+      {
+        "id": "jewelry",
+        "name": "Jewelry"
+      },
+      {
+        "id": "food",
+        "name": "Food & Beverage"
+      },
+      {
+        "id": "ecommerce",
+        "name": "E-commerce"
+      }
+    ],
+    "items": [
+      {
+        "image": "images/portfolio-1.jpg",
+        "alt": "Portfolio Image 1"
+      },
+      {
+        "image": "images/portfolio-2.jpg",
+        "alt": "Portfolio Image 2"
+      },
+      {
+        "image": "images/portfolio-3.jpg",
+        "alt": "Portfolio Image 3"
+      },
+      {
+        "image": "images/portfolio-4.jpg",
+        "alt": "Portfolio Image 4"
+      },
+      {
+        "image": "images/portfolio-5.jpg",
+        "alt": "Portfolio Image 5"
+      },
+      {
+        "image": "images/portfolio-6.jpg",
+        "alt": "Portfolio Image 6"
+      }
+    ]
+  },
+  "about": {
+    "sectionTitle": "About Me",
+    "sectionSubtitle": "Passionate about perfecting every pixel",
+    "profileImage": "images/profile.jpg",
+    "paragraphs": [
+      "With over 5 years of experience in professional photo editing, I specialize in transforming ordinary images into extraordinary visual stories. My expertise spans across portrait retouching, landscape enhancement, product photography, and creative manipulation.",
+      "I work with photographers, businesses, and individuals to bring their vision to life through meticulous attention to detail and creative excellence. Every project is an opportunity to create something remarkable."
+    ],
+    "skills": [
+      {
+        "name": "Adobe Photoshop",
+        "percentage": 95
+      },
+      {
+        "name": "Adobe Lightroom",
+        "percentage": 90
+      },
+      {
+        "name": "Color Grading",
+        "percentage": 92
+      },
+      {
+        "name": "Photo Manipulation",
+        "percentage": 88
+      }
+    ]
+  },
+  "contact": {
+    "sectionTitle": "Get In Touch",
+    "sectionSubtitle": "Let's discuss your next project",
+    "email": {
+      "label": "Email",
+      "value": "editor@photoeditor.com",
+      "link": "mailto:editor@photoeditor.com",
+      "linkText": "Send a message"
+    },
+    "phone": {
+      "label": "Phone",
+      "value": "+1 (555) 123-4567",
+      "link": "tel:+15551234567",
+      "linkText": "Give me a call"
+    },
+    "location": {
+      "label": "Location",
+      "value": "New York, USA",
+      "additionalInfo": "Available for remote work worldwide"
+    },
+    "socialLinks": [
+      {
+        "platform": "instagram",
+        "icon": "fab fa-instagram",
+        "url": "https://instagram.com/yourhandle",
+        "label": "Instagram"
+      },
+      {
+        "platform": "behance",
+        "icon": "fab fa-behance",
+        "url": "https://behance.net/yourhandle",
+        "label": "Behance"
+      },
+      {
+        "platform": "linkedin",
+        "icon": "fab fa-linkedin-in",
+        "url": "https://linkedin.com/in/yourhandle",
+        "label": "LinkedIn"
+      },
+      {
+        "platform": "twitter",
+        "icon": "fab fa-twitter",
+        "url": "https://twitter.com/yourhandle",
+        "label": "Twitter"
+      }
+    ],
+    "form": {
+      "fields": {
+        "name": {
+          "label": "Your Name",
+          "placeholder": "John Doe",
+          "required": true
+        },
+        "email": {
+          "label": "Your Email",
+          "placeholder": "john@example.com",
+          "required": true
+        },
+        "subject": {
+          "label": "Subject",
+          "placeholder": "Project Inquiry",
+          "required": true
+        },
+        "message": {
+          "label": "Your Message",
+          "placeholder": "Tell me about your project...",
+          "required": true,
+          "rows": 5
+        }
+      },
+      "submitButton": "Send Message",
+      "successMessage": "Thank you! Your message has been sent successfully. I'll get back to you soon.",
+      "errorMessage": "Oops! Something went wrong. Please try again later."
+    }
+  },
+  "footer": {
+    "brandName": "PhotoEdit",
+    "tagline": "Crafting visual excellence through professional photo editing.",
+    "copyright": "\u00a9 2025 PhotoEdit Portfolio. All rights reserved."
+  }
+}
