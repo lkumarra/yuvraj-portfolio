@@ -88,23 +88,72 @@
     <section id="portfolio" class="portfolio">
         <div class="container-large">
             <div class="section-header fade-in">
-                <h2 class="section-title">Our Work</h2>
+                <h2 class="section-title">Photo Gallery</h2>
                 <p class="section-subtitle">
-                    Explore our collection of stunning transformations
+                    Explore our stunning collection of photography
                 </p>
             </div>
             
-            <div class="portfolio-filters fade-in" id="portfolioFilters">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <!-- Filters will be loaded from config.json -->
+            <!-- Gallery Controls -->
+            <div class="gallery-controls fade-in">
+                <button class="gallery-control-btn" id="galleryPrevBtn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="gallery-control-btn" id="galleryPlayPauseBtn">
+                    <i class="fas fa-pause"></i>
+                </button>
+                <button class="gallery-control-btn" id="galleryNextBtn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
             
-            <!-- Portfolio Carousels Container -->
-            <div id="portfolioCarousels">
-                <!-- Carousels will be dynamically generated -->
+            <!-- Photo Gallery Container -->
+            <div class="photo-gallery fade-in" id="photoGallery">
+                <div class="gallery-track" id="galleryTrack">
+                    <!-- Photos will be dynamically loaded -->
+                </div>
+            </div>
+            
+            <!-- Gallery Dots -->
+            <div class="gallery-dots" id="galleryDots">
+                <!-- Dots will be dynamically generated -->
             </div>
         </div>
     </section>
+    
+    <!-- Lightbox/Zoom Modal -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightboxClose">
+                <i class="fas fa-times"></i>
+            </button>
+            <button class="lightbox-prev" id="lightboxPrev">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="lightbox-next" id="lightboxNext">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            <div class="lightbox-image-container" id="lightboxImageContainer">
+                <img src="" alt="" id="lightboxImage">
+            </div>
+            <div class="lightbox-zoom-controls">
+                <button class="zoom-btn" id="zoomIn">
+                    <i class="fas fa-search-plus"></i>
+                </button>
+                <button class="zoom-btn" id="zoomReset">
+                    <i class="fas fa-compress"></i>
+                </button>
+                <button class="zoom-btn" id="zoomOut">
+                    <i class="fas fa-search-minus"></i>
+                </button>
+            </div>
+            <div class="lightbox-info">
+                <h3 id="lightboxTitle"></h3>
+                <p id="lightboxDescription"></p>
+                <span class="lightbox-counter" id="lightboxCounter"></span>
+            </div>
+        </div>
+    </div>
 
     <!-- About Section -->
     <section id="about" class="about">

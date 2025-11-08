@@ -163,193 +163,129 @@ function populateServices(services) {
 /* ====================================
    Portfolio Population
    ==================================== */
-// Carousel state
-let carousels = {};
-let autoScrollIntervals = {};
 
 function populatePortfolio(portfolio) {
     // Store portfolio items globally
     portfolioItems = portfolio.items || [];
     
-    // Populate filters
-    const filtersContainer = document.getElementById('portfolioFilters');
-    if (filtersContainer && portfolio.categories) {
-        const categoryButtons = portfolio.categories.map(cat => `
-            <button class="filter-btn" data-filter="${cat.id}">${cat.name}</button>
-        `).join('');
-        filtersContainer.innerHTML = `
-            <button class="filter-btn active" data-filter="all">All</button>
-            ${categoryButtons}
-        `;
-    }
-    
-    // Create carousels for each category
-    createPortfolioCarousels(portfolio);
+    // Create unified photo gallery
+    createPhotoGallery(portfolioItems);
 }
 
-function createPortfolioCarousels(portfolio) {
-    const container = document.getElementById('portfolioCarousels');
-    if (!container) return;
-    
-    // Group items by category
-    const categorizedItems = {
-        'all': portfolioItems
-    };
-    
-    // Group items by their categories
-    if (portfolio.categories) {
-        portfolio.categories.forEach(cat => {
-            const items = portfolioItems.filter(item => item.category === cat.id);
-            if (items.length > 0) {
-                categorizedItems[cat.id] = items;
-            }
-        });
-    }
-    
-    // Create carousels for each category that has items
-    const carouselsHTML = [];
-    
-    // Add "All" carousel first
-    if (categorizedItems['all'] && categorizedItems['all'].length > 0) {
-        carouselsHTML.push(createCarouselHTML({
-            id: 'all',
-            name: 'All Projects',
-            items: categorizedItems['all']
-        }));
-    }
-    
-    // Add individual category carousels
-    if (portfolio.categories) {
-        portfolio.categories.forEach(cat => {
-            if (cat.id !== 'all' && categorizedItems[cat.id] && categorizedItems[cat.id].length > 0) {
-                carouselsHTML.push(createCarouselHTML({
-                    id: cat.id,
-                    name: cat.name,
-                    items: categorizedItems[cat.id]
-                }));
-            }
-        });
-    }
-    
-    container.innerHTML = carouselsHTML.join('');
-    
-    // Initialize all carousels
-    Object.keys(categorizedItems).forEach(categoryId => {
-        if (categorizedItems[categoryId].length > 0) {
-            initCarousel(categoryId);
-        }
-    });
-    
-    // Show only "all" category initially
-    showCategory('all');
-}
+/* ====================================
+   Unified Photo Gallery
+   ==================================== */
+let galleryState = {
+    currentIndex: 0,
+    totalItems: 0,
+    isPlaying: true,
+    autoScrollInterval: null
+};
 
-function createCarouselHTML(category) {
-    return `
-        <div class="portfolio-category fade-in" data-category="${category.id}">
-            <div class="category-header">
-                <h3 class="category-title">${category.name}</h3>
-                <div class="carousel-controls">
-                    <button class="carousel-btn play-pause" data-carousel="${category.id}" aria-label="Toggle auto-scroll">
-                        <i class="fas fa-pause"></i>
-                    </button>
-                    <button class="carousel-btn prev" data-carousel="${category.id}" aria-label="Previous">
-                        <i class="fas fa-chevron-left"></i>
-                    </button>
-                    <button class="carousel-btn next" data-carousel="${category.id}" aria-label="Next">
-                        <i class="fas fa-chevron-right"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="carousel-container">
-                <div class="carousel-track" data-carousel="${category.id}">
-                    ${category.items.map((item, localIndex) => {
-                        // Find the global index in portfolioItems for lightbox
-                        const globalIndex = portfolioItems.findIndex(p => 
-                            p.image === item.image && p.title === item.title
-                        );
-                        return `
-                        <div class="carousel-slide" data-index="${globalIndex}" data-category="${category.id}">
-                            <img src="${item.image}" alt="${item.title}" loading="lazy">
-                            <div class="portfolio-overlay">
-                                <div class="portfolio-content">
-                                    <h3>${item.title}</h3>
-                                    <p>${item.description}</p>
-                                </div>
-                            </div>
-                        </div>
-                    `}).join('')}
-                </div>
-            </div>
-            <div class="carousel-dots" data-carousel="${category.id}">
-                ${category.items.map((_, index) => `
-                    <div class="carousel-dot ${index === 0 ? 'active' : ''}" data-index="${index}"></div>
-                `).join('')}
+let lightboxState = {
+    currentIndex: 0,
+    zoomLevel: 1,
+    isDragging: false,
+    startX: 0,
+    startY: 0,
+    translateX: 0,
+    translateY: 0
+};
+
+function createPhotoGallery(items) {
+    const galleryTrack = document.getElementById('galleryTrack');
+    const dotsContainer = document.getElementById('galleryDots');
+    
+    if (!galleryTrack || !items || items.length === 0) return;
+    
+    galleryState.totalItems = items.length;
+    
+    // Create gallery items
+    galleryTrack.innerHTML = items.map((item, index) => `
+        <div class="gallery-item" data-index="${index}">
+            <img src="${item.image}" alt="${item.alt || item.title}" loading="lazy">
+            <div class="gallery-item-overlay">
+                <span class="gallery-item-category">${item.category}</span>
+                <h3>${item.title}</h3>
+                <p>${item.description}</p>
             </div>
         </div>
-    `;
+    `).join('');
+    
+    // Create dots
+    const slidesPerView = getSlidesPerView();
+    const dotCount = Math.max(1, items.length - slidesPerView + 1);
+    dotsContainer.innerHTML = Array.from({ length: dotCount }, (_, i) => `
+        <div class="gallery-dot ${i === 0 ? 'active' : ''}" data-index="${i}"></div>
+    `).join('');
+    
+    // Initialize gallery controls
+    initGalleryControls();
+    
+    // Start auto-scroll
+    startGalleryAutoScroll();
 }
 
-function initCarousel(categoryId) {
-    const track = document.querySelector(`.carousel-track[data-carousel="${categoryId}"]`);
-    const slides = track.querySelectorAll('.carousel-slide');
-    const prevBtn = document.querySelector(`.carousel-btn.prev[data-carousel="${categoryId}"]`);
-    const nextBtn = document.querySelector(`.carousel-btn.next[data-carousel="${categoryId}"]`);
-    const playPauseBtn = document.querySelector(`.carousel-btn.play-pause[data-carousel="${categoryId}"]`);
-    const dots = document.querySelectorAll(`.carousel-dots[data-carousel="${categoryId}"] .carousel-dot`);
-    
-    if (!track || slides.length === 0) return;
-    
-    // Initialize carousel state
-    carousels[categoryId] = {
-        currentIndex: 0,
-        totalSlides: slides.length,
-        isPlaying: true,
-        track: track,
-        slides: slides,
-        dots: dots
-    };
+function initGalleryControls() {
+    const prevBtn = document.getElementById('galleryPrevBtn');
+    const nextBtn = document.getElementById('galleryNextBtn');
+    const playPauseBtn = document.getElementById('galleryPlayPauseBtn');
+    const dots = document.querySelectorAll('.gallery-dot');
+    const galleryItems = document.querySelectorAll('.gallery-item');
     
     // Navigation buttons
     if (prevBtn) {
-        prevBtn.addEventListener('click', () => moveCarousel(categoryId, -1));
+        prevBtn.addEventListener('click', () => moveGallery(-1));
     }
     
     if (nextBtn) {
-        nextBtn.addEventListener('click', () => moveCarousel(categoryId, 1));
+        nextBtn.addEventListener('click', () => moveGallery(1));
     }
     
     // Play/Pause button
     if (playPauseBtn) {
-        playPauseBtn.addEventListener('click', () => toggleAutoScroll(categoryId));
+        playPauseBtn.addEventListener('click', toggleGalleryAutoScroll);
     }
     
     // Dots navigation
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => goToSlide(categoryId, index));
+    dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+            const index = parseInt(dot.dataset.index);
+            goToGallerySlide(index);
+        });
     });
     
-    // Click on slides to open lightbox
-    slides.forEach(slide => {
-        slide.addEventListener('click', () => {
-            const index = parseInt(slide.dataset.index);
+    // Click on items to open lightbox
+    galleryItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const index = parseInt(item.dataset.index);
             openLightbox(index);
         });
     });
     
-    // Start auto-scroll
-    startAutoScroll(categoryId);
+    // Handle window resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            goToGallerySlide(galleryState.currentIndex);
+        }, 250);
+    });
 }
 
-function moveCarousel(categoryId, direction) {
-    const carousel = carousels[categoryId];
-    if (!carousel) return;
+function getSlidesPerView() {
+    const width = window.innerWidth;
+    if (width >= 1440) return 4;
+    if (width >= 1024) return 3;
+    if (width >= 768) return 2;
+    return 1;
+}
+
+function moveGallery(direction) {
+    const slidesPerView = getSlidesPerView();
+    const maxIndex = Math.max(0, galleryState.totalItems - slidesPerView);
     
-    let newIndex = carousel.currentIndex + direction;
-    
-    // Calculate how many slides fit in view
-    const slidesPerView = window.innerWidth <= 480 ? 1 : window.innerWidth <= 768 ? 2 : 3;
-    const maxIndex = Math.max(0, carousel.totalSlides - slidesPerView);
+    let newIndex = galleryState.currentIndex + direction;
     
     // Loop around
     if (newIndex < 0) {
@@ -358,74 +294,314 @@ function moveCarousel(categoryId, direction) {
         newIndex = 0;
     }
     
-    goToSlide(categoryId, newIndex);
+    goToGallerySlide(newIndex);
 }
 
-function goToSlide(categoryId, index) {
-    const carousel = carousels[categoryId];
-    if (!carousel) return;
+function goToGallerySlide(index) {
+    const track = document.getElementById('galleryTrack');
+    const items = document.querySelectorAll('.gallery-item');
+    const dots = document.querySelectorAll('.gallery-dot');
     
-    carousel.currentIndex = index;
+    if (!track || items.length === 0) return;
+    
+    galleryState.currentIndex = index;
     
     // Calculate slide width including gap
-    const slideWidth = carousel.slides[0].offsetWidth;
-    const gap = parseInt(getComputedStyle(carousel.track).gap) || 0;
+    const slideWidth = items[0].offsetWidth;
+    const gap = parseInt(getComputedStyle(track).gap) || 0;
     const offset = -(slideWidth + gap) * index;
     
-    carousel.track.style.transform = `translateX(${offset}px)`;
+    track.style.transform = `translateX(${offset}px)`;
     
     // Update dots
-    carousel.dots.forEach((dot, i) => {
+    dots.forEach((dot, i) => {
         dot.classList.toggle('active', i === index);
     });
 }
 
-function startAutoScroll(categoryId) {
-    stopAutoScroll(categoryId); // Clear any existing interval
+function startGalleryAutoScroll() {
+    stopGalleryAutoScroll();
     
-    const carousel = carousels[categoryId];
-    if (!carousel || !carousel.isPlaying) return;
+    if (!galleryState.isPlaying) return;
     
-    autoScrollIntervals[categoryId] = setInterval(() => {
-        moveCarousel(categoryId, 1);
+    galleryState.autoScrollInterval = setInterval(() => {
+        moveGallery(1);
     }, 4000); // Auto-scroll every 4 seconds
 }
 
-function stopAutoScroll(categoryId) {
-    if (autoScrollIntervals[categoryId]) {
-        clearInterval(autoScrollIntervals[categoryId]);
-        autoScrollIntervals[categoryId] = null;
+function stopGalleryAutoScroll() {
+    if (galleryState.autoScrollInterval) {
+        clearInterval(galleryState.autoScrollInterval);
+        galleryState.autoScrollInterval = null;
     }
+}
+
+function toggleGalleryAutoScroll() {
+    const playPauseBtn = document.getElementById('galleryPlayPauseBtn');
+    if (!playPauseBtn) return;
+    
+    galleryState.isPlaying = !galleryState.isPlaying;
+    
+    const icon = playPauseBtn.querySelector('i');
+    if (galleryState.isPlaying) {
+        icon.className = 'fas fa-pause';
+        startGalleryAutoScroll();
+    } else {
+        icon.className = 'fas fa-play';
+        stopGalleryAutoScroll();
+    }
+}
+
+/* ====================================
+   Lightbox with Zoom
+   ==================================== */
+function openLightbox(index) {
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImage = document.getElementById('lightboxImage');
+    const lightboxTitle = document.getElementById('lightboxTitle');
+    const lightboxDescription = document.getElementById('lightboxDescription');
+    const lightboxCounter = document.getElementById('lightboxCounter');
+    
+    if (!lightbox || !portfolioItems[index]) return;
+    
+    lightboxState.currentIndex = index;
+    lightboxState.zoomLevel = 1;
+    lightboxState.translateX = 0;
+    lightboxState.translateY = 0;
+    
+    const item = portfolioItems[index];
+    
+    lightboxImage.src = item.image;
+    lightboxImage.alt = item.alt || item.title;
+    lightboxTitle.textContent = item.title;
+    lightboxDescription.textContent = item.description;
+    lightboxCounter.textContent = `${index + 1} / ${portfolioItems.length}`;
+    
+    updateLightboxImageTransform();
+    
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    
+    // Initialize lightbox controls if not already done
+    if (!window.lightboxInitialized) {
+        initLightboxControls();
+        window.lightboxInitialized = true;
+    }
+}
+
+function closeLightbox() {
+    const lightbox = document.getElementById('lightbox');
+    if (!lightbox) return;
+    
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function initLightboxControls() {
+    const closeBtn = document.getElementById('lightboxClose');
+    const prevBtn = document.getElementById('lightboxPrev');
+    const nextBtn = document.getElementById('lightboxNext');
+    const zoomInBtn = document.getElementById('zoomIn');
+    const zoomOutBtn = document.getElementById('zoomOut');
+    const zoomResetBtn = document.getElementById('zoomReset');
+    const lightbox = document.getElementById('lightbox');
+    const imageContainer = document.getElementById('lightboxImageContainer');
+    const lightboxImage = document.getElementById('lightboxImage');
+    
+    // Close button
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeLightbox);
+    }
+    
+    // Navigation buttons
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => navigateLightbox(-1));
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => navigateLightbox(1));
+    }
+    
+    // Zoom controls
+    if (zoomInBtn) {
+        zoomInBtn.addEventListener('click', () => zoomLightbox(0.2));
+    }
+    
+    if (zoomOutBtn) {
+        zoomOutBtn.addEventListener('click', () => zoomLightbox(-0.2));
+    }
+    
+    if (zoomResetBtn) {
+        zoomResetBtn.addEventListener('click', resetZoom);
+    }
+    
+    // Click outside to close
+    if (lightbox) {
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+    }
+    
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('active')) return;
+        
+        switch(e.key) {
+            case 'Escape':
+                closeLightbox();
+                break;
+            case 'ArrowLeft':
+                navigateLightbox(-1);
+                break;
+            case 'ArrowRight':
+                navigateLightbox(1);
+                break;
+            case '+':
+            case '=':
+                zoomLightbox(0.2);
+                break;
+            case '-':
+            case '_':
+                zoomLightbox(-0.2);
+                break;
+            case '0':
+                resetZoom();
+                break;
+        }
+    });
+    
+    // Mouse wheel zoom
+    if (imageContainer) {
+        imageContainer.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? -0.1 : 0.1;
+            zoomLightbox(delta);
+        });
+    }
+    
+    // Drag to pan when zoomed
+    if (lightboxImage) {
+        lightboxImage.addEventListener('mousedown', startDrag);
+        document.addEventListener('mousemove', drag);
+        document.addEventListener('mouseup', stopDrag);
+        
+        // Touch support
+        lightboxImage.addEventListener('touchstart', (e) => {
+            const touch = e.touches[0];
+            startDrag({ clientX: touch.clientX, clientY: touch.clientY });
+        });
+        
+        document.addEventListener('touchmove', (e) => {
+            if (!lightboxState.isDragging) return;
+            const touch = e.touches[0];
+            drag({ clientX: touch.clientX, clientY: touch.clientY });
+        });
+        
+        document.addEventListener('touchend', stopDrag);
+    }
+}
+
+function navigateLightbox(direction) {
+    let newIndex = lightboxState.currentIndex + direction;
+    
+    if (newIndex < 0) {
+        newIndex = portfolioItems.length - 1;
+    } else if (newIndex >= portfolioItems.length) {
+        newIndex = 0;
+    }
+    
+    openLightbox(newIndex);
+}
+
+function zoomLightbox(delta) {
+    lightboxState.zoomLevel = Math.max(0.5, Math.min(3, lightboxState.zoomLevel + delta));
+    updateLightboxImageTransform();
+}
+
+function resetZoom() {
+    lightboxState.zoomLevel = 1;
+    lightboxState.translateX = 0;
+    lightboxState.translateY = 0;
+    updateLightboxImageTransform();
+}
+
+function updateLightboxImageTransform() {
+    const lightboxImage = document.getElementById('lightboxImage');
+    if (!lightboxImage) return;
+    
+    lightboxImage.style.transform = `
+        scale(${lightboxState.zoomLevel})
+        translate(${lightboxState.translateX}px, ${lightboxState.translateY}px)
+    `;
+}
+
+function startDrag(e) {
+    if (lightboxState.zoomLevel <= 1) return;
+    
+    lightboxState.isDragging = true;
+    lightboxState.startX = e.clientX - lightboxState.translateX;
+    lightboxState.startY = e.clientY - lightboxState.translateY;
+    
+    const lightboxImage = document.getElementById('lightboxImage');
+    if (lightboxImage) {
+        lightboxImage.style.cursor = 'grabbing';
+    }
+}
+
+function drag(e) {
+    if (!lightboxState.isDragging) return;
+    
+    e.preventDefault();
+    lightboxState.translateX = e.clientX - lightboxState.startX;
+    lightboxState.translateY = e.clientY - lightboxState.startY;
+    updateLightboxImageTransform();
+}
+
+function stopDrag() {
+    lightboxState.isDragging = false;
+    
+    const lightboxImage = document.getElementById('lightboxImage');
+    if (lightboxImage) {
+        lightboxImage.style.cursor = lightboxState.zoomLevel > 1 ? 'move' : 'default';
+    }
+}
+
+/* ====================================
+   OLD CAROUSEL CODE - REMOVE
+   ==================================== */
+function createPortfolioCarousels(portfolio) {
+    // Deprecated - replaced by createPhotoGallery
+    console.log('Old carousel function called - using new gallery instead');
+}
+
+function initCarousel(categoryId) {
+    // Deprecated
+}
+
+function moveCarousel(categoryId, direction) {
+    // Deprecated
+}
+
+function goToSlide(categoryId, index) {
+    // Deprecated
+}
+
+function startAutoScroll(categoryId) {
+    // Deprecated
+}
+
+function stopAutoScroll(categoryId) {
+    // Deprecated
 }
 
 function toggleAutoScroll(categoryId) {
-    const carousel = carousels[categoryId];
-    const playPauseBtn = document.querySelector(`.carousel-btn.play-pause[data-carousel="${categoryId}"]`);
-    
-    if (!carousel || !playPauseBtn) return;
-    
-    carousel.isPlaying = !carousel.isPlaying;
-    
-    const icon = playPauseBtn.querySelector('i');
-    if (carousel.isPlaying) {
-        icon.className = 'fas fa-pause';
-        startAutoScroll(categoryId);
-    } else {
-        icon.className = 'fas fa-play';
-        stopAutoScroll(categoryId);
-    }
+    // Deprecated
 }
 
 function showCategory(categoryId) {
-    const allCategories = document.querySelectorAll('.portfolio-category');
-    allCategories.forEach(cat => {
-        const catId = cat.dataset.category;
-        if (categoryId === 'all' || catId === categoryId || catId === 'all') {
-            cat.classList.remove('hidden');
-        } else {
-            cat.classList.add('hidden');
-        }
-    });
+    // Deprecated
 }
 
 /* ====================================
@@ -603,65 +779,9 @@ function initPortfolioFilter() {
 }
 
 /* ====================================
-   Lightbox
+   OLD Lightbox Code - REMOVED (replaced with new zoom lightbox)
    ==================================== */
-function initLightbox() {
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImage = document.getElementById('lightboxImage');
-    const lightboxClose = document.getElementById('lightboxClose');
-    const lightboxPrev = document.getElementById('lightboxPrev');
-    const lightboxNext = document.getElementById('lightboxNext');
-    
-    // Close lightbox
-    lightboxClose.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', (e) => {
-        if (e.target === lightbox) closeLightbox();
-    });
-    
-    // Navigation
-    lightboxPrev.addEventListener('click', () => navigateLightbox(-1));
-    lightboxNext.addEventListener('click', () => navigateLightbox(1));
-    
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-        if (!lightbox.classList.contains('active')) return;
-        
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowLeft') navigateLightbox(-1);
-        if (e.key === 'ArrowRight') navigateLightbox(1);
-    });
-}
-
-function openLightbox(index) {
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImage = document.getElementById('lightboxImage');
-    
-    currentLightboxIndex = index;
-    lightboxImage.src = portfolioItems[index].image;
-    lightboxImage.alt = portfolioItems[index].title;
-    lightbox.classList.add('active');
-    document.body.style.overflow = 'hidden';
-}
-
-function closeLightbox() {
-    const lightbox = document.getElementById('lightbox');
-    lightbox.classList.remove('active');
-    document.body.style.overflow = '';
-}
-
-function navigateLightbox(direction) {
-    currentLightboxIndex += direction;
-    
-    if (currentLightboxIndex < 0) {
-        currentLightboxIndex = portfolioItems.length - 1;
-    } else if (currentLightboxIndex >= portfolioItems.length) {
-        currentLightboxIndex = 0;
-    }
-    
-    const lightboxImage = document.getElementById('lightboxImage');
-    lightboxImage.src = portfolioItems[currentLightboxIndex].image;
-    lightboxImage.alt = portfolioItems[currentLightboxIndex].title;
-}
+// Old lightbox code removed - see unified gallery lightbox above
 
 /* ====================================
    Scroll Animations
@@ -826,7 +946,7 @@ window.addEventListener('DOMContentLoaded', async () => {
     // Initialize all features
     initNavigation();
     initPortfolioFilter();
-    initLightbox();
+    // initLightbox(); // Now initialized dynamically when gallery is opened
     initContactForm();
     initParallax();
     initDarkMode();
@@ -839,15 +959,16 @@ window.addEventListener('DOMContentLoaded', async () => {
     console.log('✅ Portfolio initialized successfully');
 });
 
-// Handle window resize for carousel responsiveness
+// Handle window resize for gallery responsiveness
 let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-        // Reset all carousels to first slide on resize
-        Object.keys(carousels).forEach(categoryId => {
-            goToSlide(categoryId, 0);
-        });
+        // Gallery handles its own resize via initGalleryControls
+        if (galleryState && galleryState.currentIndex !== undefined) {
+            goToGallerySlide(galleryState.currentIndex);
+        }
+```
     }, 250);
 });
 

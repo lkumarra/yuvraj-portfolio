@@ -472,18 +472,326 @@ section {
 }
 
 /* ====================================
-   Portfolio (Apple Style)
+   Photo Gallery (Unified Gallery)
    ==================================== */
 .portfolio {
     overflow: hidden;
 }
 
-.portfolio-filters {
+.gallery-controls {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+.gallery-control-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    font-size: 18px;
+}
+
+.gallery-control-btn:hover {
+    background: var(--color-text-primary);
+    color: white;
+    transform: scale(1.1);
+}
+
+.gallery-control-btn:active {
+    transform: scale(0.95);
+}
+
+.photo-gallery {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-xl);
+    width: 100%;
+    background: var(--color-bg-elevated);
+    padding: var(--spacing-lg);
+}
+
+.gallery-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: var(--spacing-lg);
+}
+
+.gallery-item {
+    min-width: calc(33.333% - var(--spacing-lg));
+    flex-shrink: 0;
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 2/3;
+    cursor: pointer;
+    background: var(--color-bg);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+    transform: scale(1.05);
+}
+
+.gallery-item-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: var(--spacing-lg);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.gallery-item:hover .gallery-item-overlay {
+    opacity: 1;
+}
+
+.gallery-item-overlay h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: white;
+    margin-bottom: var(--spacing-xs);
+}
+
+.gallery-item-overlay p {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.gallery-item-category {
+    display: inline-block;
+    padding: 4px 12px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    font-size: 12px;
+    color: white;
+    margin-bottom: var(--spacing-sm);
+}
+
+.gallery-dots {
     display: flex;
     justify-content: center;
     gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-xl);
-    flex-wrap: wrap;
+    margin-top: var(--spacing-xl);
+}
+
+.gallery-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-border);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.gallery-dot.active {
+    background: var(--color-text-primary);
+    width: 24px;
+    border-radius: 4px;
+}
+
+.gallery-dot:hover {
+    background: var(--color-text-secondary);
+}
+
+/* ====================================
+   Lightbox / Zoom Modal
+   ==================================== */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.95);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.lightbox.active {
+    display: flex;
+    opacity: 1;
+}
+
+.lightbox-content {
+    position: relative;
+    width: 90%;
+    height: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10001;
+    transition: var(--transition-fast);
+}
+
+.lightbox-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+.lightbox-prev,
+.lightbox-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10001;
+    transition: var(--transition-fast);
+}
+
+.lightbox-prev {
+    left: 40px;
+}
+
+.lightbox-next {
+    right: 40px;
+}
+
+.lightbox-prev:hover,
+.lightbox-next:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.lightbox-image-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: move;
+}
+
+.lightbox-image-container img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+    user-select: none;
+}
+
+.lightbox-zoom-controls {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 30px;
+    padding: var(--spacing-sm);
+    z-index: 10001;
+}
+
+.zoom-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: var(--transition-fast);
+}
+
+.zoom-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
+}
+
+.lightbox-info {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: white;
+    max-width: 600px;
+    z-index: 10001;
+}
+
+.lightbox-info h3 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+}
+
+.lightbox-info p {
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: var(--spacing-sm);
+}
+
+.lightbox-counter {
+    display: inline-block;
+    padding: 6px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    font-size: 14px;
+    color: white;
+}
+
+/* Old portfolio styles - keep for backward compatibility */
+.portfolio-filters {
+    display: none;
 }
 
 .filter-btn {
@@ -1015,6 +1323,10 @@ textarea.form-input {
     .carousel-slide {
         max-height: 550px;
     }
+    
+    .gallery-item {
+        min-width: calc(25% - var(--spacing-lg));
+    }
 }
 
 @media (max-width: 1024px) {
@@ -1025,6 +1337,18 @@ textarea.form-input {
     
     .carousel-slide {
         max-height: 450px;
+    }
+    
+    .gallery-item {
+        min-width: calc(50% - var(--spacing-lg));
+    }
+    
+    .lightbox-prev {
+        left: 20px;
+    }
+    
+    .lightbox-next {
+        right: 20px;
     }
 }
 
@@ -1063,8 +1387,51 @@ textarea.form-input {
         max-height: 400px;
     }
     
+    .gallery-item {
+        min-width: calc(100% - var(--spacing-lg));
+    }
+    
     .services-grid {
         grid-template-columns: 1fr;
+    }
+    
+    .lightbox-prev,
+    .lightbox-next {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .lightbox-prev {
+        left: 10px;
+    }
+    
+    .lightbox-next {
+        right: 10px;
+    }
+    
+    .lightbox-zoom-controls {
+        bottom: 100px;
+        padding: var(--spacing-xs);
+    }
+    
+    .zoom-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+    
+    .lightbox-info {
+        bottom: 20px;
+        padding: 0 var(--spacing-md);
+    }
+    
+    .lightbox-info h3 {
+        font-size: 18px;
+    }
+    
+    .lightbox-info p {
+        font-size: 14px;
     }
 }
 
@@ -1084,6 +1451,10 @@ textarea.form-input {
         max-height: 350px;
     }
     
+    .gallery-item {
+        min-width: 100%;
+    }
+    
     .category-header {
         flex-direction: column;
         gap: var(--spacing-md);
@@ -1093,5 +1464,15 @@ textarea.form-input {
     .carousel-controls {
         width: 100%;
         justify-content: space-between;
+    }
+    
+    .gallery-controls {
+        gap: var(--spacing-sm);
+    }
+    
+    .gallery-control-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 16px;
     }
 }
