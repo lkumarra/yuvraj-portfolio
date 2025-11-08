@@ -36,15 +36,9 @@
   for = "/images/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "image/jpeg"
 
-# Redirect rules
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = false
-
-# Custom 404 page (optional)
+# Custom 404 page
 [[redirects]]
   from = "/404"
   to = "/index.html"
