@@ -169,15 +169,24 @@ function populatePortfolio(portfolio) {
     // Store portfolio items globally
     portfolioItems = portfolio.items || [];
     
-    // Populate category filters
+    console.log('📸 Portfolio items loaded:', portfolioItems.length);
+    console.log('🖼️ First image:', portfolioItems[0]);
+    
+    // Populate category filters (clear existing first to avoid duplicates)
     if (portfolio.categories) {
         const filtersContainer = document.getElementById('portfolioFilters');
         if (filtersContainer) {
+            // Clear any existing filters
+            filtersContainer.innerHTML = '';
+            
+            // Add new filters
             filtersContainer.innerHTML = portfolio.categories.map(cat => `
                 <button class="filter-btn ${cat.id === 'all' ? 'active' : ''}" data-filter="${cat.id}">
                     ${cat.name}
                 </button>
             `).join('');
+            
+            console.log('✅ Created', portfolio.categories.length, 'filter buttons');
         }
     }
     
@@ -210,7 +219,18 @@ function createPhotoGallery(items) {
     const galleryTrack = document.getElementById('galleryTrack');
     const dotsContainer = document.getElementById('galleryDots');
     
-    if (!galleryTrack || !items || items.length === 0) return;
+    console.log('🎨 Creating gallery with', items?.length || 0, 'items');
+    console.log('📍 Gallery track element:', !!galleryTrack);
+    console.log('📍 Dots container element:', !!dotsContainer);
+    
+    if (!galleryTrack || !items || items.length === 0) {
+        console.error('❌ Cannot create gallery:', {
+            hasTrack: !!galleryTrack,
+            hasItems: !!items,
+            itemCount: items?.length
+        });
+        return;
+    }
     
     // Update currently displayed items for lightbox
     currentDisplayedItems = items;
@@ -222,6 +242,8 @@ function createPhotoGallery(items) {
             <img src="${item.image}" alt="${item.alt || 'Portfolio image'}" loading="lazy" onload="adjustImageOrientation(this)">
         </div>
     `).join('');
+    
+    console.log('✅ Gallery HTML created, items in DOM:', galleryTrack.children.length);
     
     // Create dots
     const slidesPerView = getSlidesPerView();
