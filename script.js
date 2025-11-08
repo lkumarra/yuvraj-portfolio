@@ -200,15 +200,10 @@ function createPhotoGallery(items) {
     
     galleryState.totalItems = items.length;
     
-    // Create gallery items
+    // Create gallery items (no overlays, just images)
     galleryTrack.innerHTML = items.map((item, index) => `
         <div class="gallery-item" data-index="${index}">
-            <img src="${item.image}" alt="${item.alt || item.title}" loading="lazy">
-            <div class="gallery-item-overlay">
-                <span class="gallery-item-category">${item.category}</span>
-                <h3>${item.title}</h3>
-                <p>${item.description}</p>
-            </div>
+            <img src="${item.image}" alt="${item.alt || 'Portfolio image'}" loading="lazy" onload="adjustImageOrientation(this)">
         </div>
     `).join('');
     
@@ -224,6 +219,37 @@ function createPhotoGallery(items) {
     
     // Start auto-scroll
     startGalleryAutoScroll();
+}
+
+// Adjust gallery item based on image orientation
+function adjustImageOrientation(img) {
+    const item = img.closest('.gallery-item');
+    if (!item) return;
+    
+    // Wait for image to load to get natural dimensions
+    if (img.complete) {
+        setOrientation();
+    } else {
+        img.addEventListener('load', setOrientation);
+    }
+    
+    function setOrientation() {
+        const aspectRatio = img.naturalWidth / img.naturalHeight;
+        
+        // Remove any existing orientation classes
+        item.classList.remove('portrait', 'landscape', 'square');
+        
+        if (aspectRatio < 0.9) {
+            // Portrait (vertical)
+            item.classList.add('portrait');
+        } else if (aspectRatio > 1.1) {
+            // Landscape (horizontal)
+            item.classList.add('landscape');
+        } else {
+            // Square
+            item.classList.add('square');
+        }
+    }
 }
 
 function initGalleryControls() {
@@ -358,8 +384,6 @@ function toggleGalleryAutoScroll() {
 function openLightbox(index) {
     const lightbox = document.getElementById('lightbox');
     const lightboxImage = document.getElementById('lightboxImage');
-    const lightboxTitle = document.getElementById('lightboxTitle');
-    const lightboxDescription = document.getElementById('lightboxDescription');
     const lightboxCounter = document.getElementById('lightboxCounter');
     
     if (!lightbox || !portfolioItems[index]) return;
@@ -372,9 +396,14 @@ function openLightbox(index) {
     const item = portfolioItems[index];
     
     lightboxImage.src = item.image;
-    lightboxImage.alt = item.alt || item.title;
-    lightboxTitle.textContent = item.title;
-    lightboxDescription.textContent = item.description;
+    lightboxImage.alt = item.alt || 'Portfolio image';
+    
+    // Hide title and description elements (not needed)
+    const lightboxTitle = document.getElementById('lightboxTitle');
+    const lightboxDescription = document.getElementById('lightboxDescription');
+    if (lightboxTitle) lightboxTitle.style.display = 'none';
+    if (lightboxDescription) lightboxDescription.style.display = 'none';
+    
     lightboxCounter.textContent = `${index + 1} / ${portfolioItems.length}`;
     
     updateLightboxImageTransform();

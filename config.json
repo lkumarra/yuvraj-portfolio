@@ -75,45 +75,27 @@
     "items": [
       {
         "image": "images/portfolio-1.jpg",
-        "alt": "Portrait Editing Sample",
-        "category": "portrait",
-        "title": "Portrait Retouching",
-        "description": "Professional portrait enhancement"
+        "alt": "Portfolio Image 1"
       },
       {
         "image": "images/portfolio-2.jpg",
-        "alt": "Landscape Editing Sample",
-        "category": "landscape",
-        "title": "Landscape Enhancement",
-        "description": "Color grading & atmosphere"
+        "alt": "Portfolio Image 2"
       },
       {
         "image": "images/portfolio-3.jpg",
-        "alt": "Product Editing Sample",
-        "category": "product",
-        "title": "Product Photography",
-        "description": "Clean & professional editing"
+        "alt": "Portfolio Image 3"
       },
       {
         "image": "images/portfolio-4.jpg",
-        "alt": "Creative Editing Sample",
-        "category": "creative",
-        "title": "Creative Manipulation",
-        "description": "Artistic photo composition"
+        "alt": "Portfolio Image 4"
       },
       {
         "image": "images/portfolio-5.jpg",
-        "alt": "Beauty Portrait Editing",
-        "category": "portrait",
-        "title": "Beauty Retouching",
-        "description": "High-end beauty editing"
+        "alt": "Portfolio Image 5"
       },
       {
         "image": "images/portfolio-6.jpg",
-        "alt": "Nature Landscape Editing",
-        "category": "landscape",
-        "title": "Nature Photography",
-        "description": "Stunning landscape editing"
+        "alt": "Portfolio Image 6"
       }
     ]
   },

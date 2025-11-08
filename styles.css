@@ -531,10 +531,26 @@ section {
     position: relative;
     border-radius: var(--radius-lg);
     overflow: hidden;
-    aspect-ratio: 2/3;
     cursor: pointer;
     background: var(--color-bg);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    height: 500px; /* Default height */
+}
+
+/* Dynamic aspect ratios based on image orientation */
+.gallery-item.portrait {
+    aspect-ratio: 2/3;
+    height: auto;
+}
+
+.gallery-item.landscape {
+    aspect-ratio: 16/9;
+    height: auto;
+}
+
+.gallery-item.square {
+    aspect-ratio: 1/1;
+    height: auto;
 }
 
 .gallery-item:hover {
@@ -555,43 +571,22 @@ section {
     transform: scale(1.05);
 }
 
+/* Hide overlays - just show photos */
 .gallery-item-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%);
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: var(--spacing-lg);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.gallery-item:hover .gallery-item-overlay {
-    opacity: 1;
+    display: none;
 }
 
 .gallery-item-overlay h3 {
-    font-size: 18px;
-    font-weight: 600;
-    color: white;
-    margin-bottom: var(--spacing-xs);
+    display: none;
 }
 
+
 .gallery-item-overlay p {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
+    display: none;
 }
 
 .gallery-item-category {
-    display: inline-block;
-    padding: 4px 12px;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
-    border-radius: 12px;
-    font-size: 12px;
-    color: white;
-    margin-bottom: var(--spacing-sm);
+    display: none;
 }
 
 .gallery-dots {
@@ -768,15 +763,11 @@ section {
 }
 
 .lightbox-info h3 {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: var(--spacing-xs);
+    display: none; /* Hide title */
 }
 
 .lightbox-info p {
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: var(--spacing-sm);
+    display: none; /* Hide description */
 }
 
 .lightbox-counter {
@@ -1343,6 +1334,19 @@ textarea.form-input {
         min-width: calc(50% - var(--spacing-lg));
     }
     
+    /* Maintain aspect ratios on tablet */
+    .gallery-item.portrait {
+        height: 400px;
+    }
+    
+    .gallery-item.landscape {
+        height: 300px;
+    }
+    
+    .gallery-item.square {
+        height: 350px;
+    }
+    
     .lightbox-prev {
         left: 20px;
     }
@@ -1389,6 +1393,19 @@ textarea.form-input {
     
     .gallery-item {
         min-width: calc(100% - var(--spacing-lg));
+    }
+    
+    /* Mobile: full width, adjust heights */
+    .gallery-item.portrait {
+        height: 450px;
+    }
+    
+    .gallery-item.landscape {
+        height: 250px;
+    }
+    
+    .gallery-item.square {
+        height: 350px;
     }
     
     .services-grid {
