@@ -695,6 +695,11 @@ function initNavigation() {
     const navMenu = document.getElementById('navMenu');
     const navLinks = document.querySelectorAll('.nav-link');
     
+    if (!navbar) {
+        console.warn('⚠️ Navigation elements not found');
+        return;
+    }
+    
     // Navbar scroll effect
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
@@ -708,9 +713,11 @@ function initNavigation() {
     });
     
     // Mobile menu toggle
-    navToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-    });
+    if (navToggle && navMenu) {
+        navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+    }
     
     // Close mobile menu on link click
     navLinks.forEach(link => {
@@ -718,7 +725,11 @@ function initNavigation() {
             e.preventDefault();
             const target = link.getAttribute('href');
             smoothScroll(target);
-            navMenu.classList.remove('active');
+            
+            // Close mobile menu after click
+            if (navMenu) {
+                navMenu.classList.remove('active');
+            }
         });
     });
 }
@@ -759,23 +770,9 @@ function smoothScroll(target) {
    Portfolio Filtering
    ==================================== */
 function initPortfolioFilter() {
-    document.addEventListener('click', (e) => {
-        if (e.target.classList.contains('filter-btn')) {
-            // Update active button
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            e.target.classList.add('active');
-            
-            // Show/hide categories based on filter
-            const filter = e.target.dataset.filter;
-            currentFilter = filter;
-            showCategory(filter);
-            
-            // Re-observe elements for fade-in animation
-            setTimeout(() => observeElements(), 100);
-        }
-    });
+    // Portfolio filters removed - unified gallery doesn't need category filtering
+    // Filter buttons are hidden in CSS
+    console.log('Portfolio filters disabled - using unified gallery');
 }
 
 /* ====================================
@@ -891,6 +888,11 @@ function initDarkMode() {
     const darkIcon = document.getElementById('darkIcon');
     const html = document.documentElement;
     
+    if (!themeToggle || !lightIcon || !darkIcon) {
+        console.warn('⚠️ Dark mode elements not found');
+        return;
+    }
+    
     // Check for saved theme preference or default to light mode
     const currentTheme = localStorage.getItem('theme') || 'light';
     html.setAttribute('data-theme', currentTheme);
@@ -968,7 +970,6 @@ window.addEventListener('resize', () => {
         if (galleryState && galleryState.currentIndex !== undefined) {
             goToGallerySlide(galleryState.currentIndex);
         }
-```
     }, 250);
 });
 
